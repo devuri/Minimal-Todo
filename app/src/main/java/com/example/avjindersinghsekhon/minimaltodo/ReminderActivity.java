@@ -72,7 +72,6 @@ public class ReminderActivity extends AppCompatActivity{
         mSnoozeTextView = (TextView)findViewById(R.id.reminderViewSnoozeTextView);
         mSnoozeSpinner = (MaterialSpinner)findViewById(R.id.todoReminderSnoozeSpinner);
 
-//        mtoDoTextTextView.setBackgroundColor(item.getTodoColor());
         mtoDoTextTextView.setText(mItem.getToDoText());
 
         if(theme.equals(MainActivity.LIGHTTHEME)){
@@ -92,25 +91,19 @@ public class ReminderActivity extends AppCompatActivity{
                 changeOccurred();
                 saveData();
                 closeApp();
-//                finish();
             }
         });
 
 
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, snoozeOptionsArray);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_text_view, snoozeOptionsArray);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
         mSnoozeSpinner.setAdapter(adapter);
-//        mSnoozeSpinner.setSelection(0);
-
     }
 
     private void closeApp(){
         Intent i = new Intent(ReminderActivity.this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        i.putExtra(EXIT, true);
         SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREF_DATA_SET_CHANGED, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(EXIT, true);
@@ -128,7 +121,6 @@ public class ReminderActivity extends AppCompatActivity{
         SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREF_DATA_SET_CHANGED, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(MainActivity.CHANGE_OCCURED, true);
-//        editor.commit();
         editor.apply();
     }
 
@@ -170,17 +162,6 @@ public class ReminderActivity extends AppCompatActivity{
         }
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        try{
-//            storeRetrieveData.saveToFile(mToDoItems);
-//        }
-//        catch (JSONException | IOException e){
-//            e.printStackTrace();
-//        }
-//    }
-
     private void saveData(){
         try{
             storeRetrieveData.saveToFile(mToDoItems);
@@ -193,11 +174,5 @@ public class ReminderActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        try{
-//            storeRetrieveData.saveToFile(mToDoItems);
-//        }
-//        catch (JSONException | IOException e){
-//            e.printStackTrace();
-//        }
     }
 }

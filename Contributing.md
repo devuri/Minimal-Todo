@@ -1,4 +1,4 @@
-[Minimal-Todo](https://github.com/avjinder/Minimal-Todo) - Material To-Do App 
+[Minimal-Todo](https://github.com/wummel/Minimal-Todo) - Material To-Do App
 ==================================================
 
 Welcome, so you are thinking about contributing to Minimal-Todo? Awesome, this is a great place to start.
@@ -8,7 +8,7 @@ Get in Touch
 
 If you are a first time contributor and want some help getting started feel free to send a private email to any of the following maintainers:
 
- * Avjinder (avisekhon@gmail.com)
+ * Bastian (bastian.kleineidam@web.de)
 
 Help Wanted
 ----------------
@@ -16,7 +16,7 @@ Help Wanted
 #### If you have an error or support request
 
 - Read the error message and documentation.
-- Search [existing issues](https://github.com/avjinder/Minimal-Todo/issues), [closed issues](https://github.com/avjinder/Minimal-Todo/issues?page=1&state=closed), and [the internet](https://google.com) first.
+- Search [existing issues](https://github.com/wummel/Minimal-Todo/issues), [closed issues](https://github.com/wummel/Minimal-Todo/issues?page=1&state=closed), and [the internet](https://google.com) first.
 - If the issue is with a dependency of this project, post on the dependency's repo.
 - If you can fix the issue, submit a PR :+1: :dancer: :dancer: :rocket:.
 - If the issue persists, post on the issue tracker. Include any information that could help others reproduce and fix.

@@ -23,7 +23,6 @@ public class SettingsActivity extends AppCompatActivity{
             setTheme(R.style.CustomStyle_DarkTheme);
         }
         super.onCreate(savedInstanceState);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

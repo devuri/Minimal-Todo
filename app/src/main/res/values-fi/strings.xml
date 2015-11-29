@@ -10,7 +10,7 @@
     <string name="about">Tietoja</string>
     <string name="app_version">Versio: %1$s</string>
     <string name="contact_me">Ota yhteyttä</string>
-    <string name="made_by">Tekijä Avjinder</string>
+    <string name="made_by">Tekijä Bastian</string>
     <string name="done_label">Valmis</string>
 
     <string name="date_reminder_default">Tänään</string>

@@ -11,7 +11,7 @@
     <string name="about">Acerca de</string>
     <string name="app_version">Versión: %1$s</string>
     <string name="contact_me">Puedes contactarme en</string>
-    <string name="made_by">Hecho por Avjinder</string>
+    <string name="made_by">Hecho por Bastian</string>
     <string name="done_label">Hecho</string>
 
     <string-array name="snooze_options">

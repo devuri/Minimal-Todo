@@ -20,7 +20,6 @@ public class AboutActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView contactMe;
     String theme;
-//    private UUID mId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +35,10 @@ public class AboutActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_layout);
-        
-        Intent i = getIntent();
-//        mId = (UUID)i.getSerializableExtra(TodoNotificationService.TODOUUID);
 
         final Drawable backArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         if(backArrow!=null){
             backArrow.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-
         }
         try{
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
