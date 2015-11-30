@@ -1,4 +1,4 @@
-[Minimal-Todo](https://github.com/wummel/Minimal-Todo) - Material To-Do App
+[Mini-Todo](https://github.com/wummel/Minimal-Todo) - Material To-Do App
 ==================================================
 
 Welcome, so you are thinking about contributing to Minimal-Todo? Awesome, this is a great place to start.

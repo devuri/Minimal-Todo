@@ -1,4 +1,4 @@
-# Minimal [![Build Status](https://travis-ci.org/wummel/Minimal-Todo.svg?branch=master)](https://travis-ci.org/wummel/Minimal-Todo)
+# Mini Todo [![Build Status](https://travis-ci.org/wummel/Minimal-Todo.svg?branch=master)](https://travis-ci.org/wummel/Minimal-Todo)
 
 <img src="/screenshots/app_icon.png" height="200px"/> <br>
 A fully Material ToDo app with minimal features, just enough to be useful.
@@ -22,7 +22,7 @@ Designed by [Christopher Gundersen](cgundersen2020@gmail.com)
 * Finnish by [Miikka Andersson](https://github.com/miikande) <br>
 
 ##Contributing
-Looking to contribute something to Minimal? [Here's how you can help](/Contributing.md).
+Looking to contribute something to Mini Todo? [Here's how you can help](/Contributing.md).
 
 
 #License:
