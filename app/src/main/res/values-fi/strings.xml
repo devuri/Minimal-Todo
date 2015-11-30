@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mini</string>
+    <string name="app_name">Mini Todo</string>
     <string name="action_settings">Asetukset</string>
     <string name="no_to_dos">Ei tekemättömiä tehtäviä</string>
     <string name="title">Otsikko</string>

@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             items  = storeRetrieveData.loadFromFile();
 
         } catch (IOException | JSONException e) {
-            e.printStackTrace();
+            Log.e("Mini", "Could not load data", e);
         }
 
         if(items == null){
@@ -404,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             storeRetrieveData.saveToFile(mToDoItemsArrayList);
         } catch (JSONException | IOException e) {
-            e.printStackTrace();
+            Log.e("Mini", "Could not save data", e);
         }
     }
 

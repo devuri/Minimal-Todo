@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mini</string>
+    <string name="app_name">Mini Todo</string>
     <string name="action_settings">Einstellungen</string>
     <string name="no_to_dos">Du hast keine To Dos</string>
     <string name="title">Titel</string>

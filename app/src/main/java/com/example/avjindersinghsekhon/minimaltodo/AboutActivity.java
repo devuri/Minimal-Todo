@@ -1,6 +1,7 @@
 package com.example.avjindersinghsekhon.minimaltodo;
 
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -8,12 +9,13 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
     private TextView mVersionTextView;
-    private String appVersion = "0.1";
+    private String appVersion = null;
     private Toolbar toolbar;
     private TextView contactMe;
     String theme;
@@ -39,8 +41,9 @@ public class AboutActivity extends AppCompatActivity {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
             appVersion = info.versionName;
         }
-        catch (Exception e){
-            e.printStackTrace();
+        catch (NameNotFoundException e){
+            Log.e("Mini", "Package name not found", e);
+            appVersion = "0";
         }
 
 
