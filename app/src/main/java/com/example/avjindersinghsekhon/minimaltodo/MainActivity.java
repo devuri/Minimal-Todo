@@ -308,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
             notifyItemRemoved(position);
 
             String toShow = "Todo";
-            Snackbar.make(mCoordLayout, "Deleted "+toShow,Snackbar.LENGTH_SHORT)
+            Snackbar.make(mCoordLayout, "Deleted "+toShow,Snackbar.LENGTH_LONG)
                     .setAction("UNDO", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
