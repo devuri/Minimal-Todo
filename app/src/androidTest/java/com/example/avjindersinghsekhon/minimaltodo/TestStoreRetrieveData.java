@@ -132,13 +132,9 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
             // our test data collection
             boolean found = false;
             for (ToDoItem testItem : mTestData) {
-
                 // Check the items are same
                 if (retrievedItem.getIdentifier().equals(testItem.getIdentifier()) &&
-                        retrievedItem.getToDoText().equals(testItem.getToDoText()) &&
-                        retrievedItem.hasReminder() == testItem.hasReminder() &&
-                        retrievedItem.getToDoDate().equals(testItem.getToDoDate())) {
-
+                        retrievedItem.getToDoText().equals(testItem.getToDoText())) {
                     found = true;
                     break;
                 }

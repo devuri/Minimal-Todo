@@ -1,7 +1,6 @@
 package com.example.avjindersinghsekhon.minimaltodo;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 public abstract class CustomRecyclerScrollViewListener extends RecyclerView.OnScrollListener {
     int scrollDist = 0;
@@ -13,19 +12,16 @@ public abstract class CustomRecyclerScrollViewListener extends RecyclerView.OnSc
         super.onScrolled(recyclerView, dx, dy);
 
         if(isVisible && scrollDist>MINIMUM){
-            Log.d("OskarSchindler", "Hide "+scrollDist);
             hide();
             scrollDist = 0;
             isVisible = false;
         }
         else if(!isVisible && scrollDist < -MINIMUM){
-            Log.d("OskarSchindler", "Show "+scrollDist);
             show();
             scrollDist = 0;
             isVisible =true;
         }
         if((isVisible && dy>0) || (!isVisible && dy<0)){
-            Log.d("OskarSchindler", "Add Up "+scrollDist);
             scrollDist += dy;
         }
     }

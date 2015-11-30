@@ -1,6 +1,5 @@
 package com.example.avjindersinghsekhon.minimaltodo;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,7 +14,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +33,6 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerViewEmptySupport mRecyclerView;
@@ -47,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ID_TODO_ITEM = 100;
     private ToDoItem mJustDeletedToDoItem;
     private int mIndexOfDeletedToDoItem;
-    public static final String DATE_TIME_FORMAT_12_HOUR = "MMM d, yyyy  h:mm a";
-    public static final String DATE_TIME_FORMAT_24_HOUR = "MMM d, yyyy  k:mm";
     public static final String FILENAME = "todoitems.json";
     private StoreRetrieveData storeRetrieveData;
     public ItemTouchHelper itemTouchHelper;
@@ -91,13 +86,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_DATA_SET_CHANGED, MODE_PRIVATE);
-        if(sharedPreferences.getBoolean(ReminderActivity.EXIT, false)){
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(ReminderActivity.EXIT,false);
-            editor.apply();
-            finish();
-        }
         /*
         We need to do this, as this activity's onCreate won't be called when coming back from SettingsActivity,
         thus our changes to dark/light mode won't take place, as the setContentView() is not called again.
@@ -128,28 +116,10 @@ public class MainActivity extends AppCompatActivity {
             mToDoItemsArrayList = getLocallyStoredData(storeRetrieveData);
             adapter = new BasicListAdapter(mToDoItemsArrayList);
             mRecyclerView.setAdapter(adapter);
-            setAlarms();
 
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(CHANGE_OCCURED, false);
             editor.apply();
-        }
-    }
-
-    private void setAlarms(){
-        if(mToDoItemsArrayList!=null){
-            for(ToDoItem item : mToDoItemsArrayList){
-                if(item.hasReminder() && item.getToDoDate()!=null){
-                    if(item.getToDoDate().before(new Date())){
-                        item.setToDoDate(null);
-                        continue;
-                    }
-                    Intent i = new Intent(this, TodoNotificationService.class);
-                    i.putExtra(TodoNotificationService.TODOUUID, item.getIdentifier());
-                    i.putExtra(TodoNotificationService.TODOTEXT, item.getToDoText());
-                    createAlarm(i, item.getIdentifier().hashCode(), item.getToDoDate().getTime());
-                }
-            }
         }
     }
 
@@ -178,8 +148,6 @@ public class MainActivity extends AppCompatActivity {
         storeRetrieveData = new StoreRetrieveData(this, FILENAME);
         mToDoItemsArrayList =  getLocallyStoredData(storeRetrieveData);
         adapter = new BasicListAdapter(mToDoItemsArrayList);
-        setAlarms();
-
 
         final android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -194,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent newTodo = new Intent(MainActivity.this, AddToDoActivity.class);
-                ToDoItem item = new ToDoItem("", false, null);
+                ToDoItem item = new ToDoItem("");
                 int color = ColorGenerator.MATERIAL.getRandomColor();
                 item.setTodoColor(color);
                 newTodo.putExtra(TODOITEM, item);
@@ -279,13 +247,6 @@ public class MainActivity extends AppCompatActivity {
             }
             boolean existed = false;
 
-            if(item.hasReminder() && item.getToDoDate()!=null){
-                Intent i = new Intent(this, TodoNotificationService.class);
-                i.putExtra(TodoNotificationService.TODOTEXT, item.getToDoText());
-                i.putExtra(TodoNotificationService.TODOUUID, item.getIdentifier());
-                createAlarm(i, item.getIdentifier().hashCode(), item.getToDoDate().getTime());
-            }
-
             for(int i = 0; i<mToDoItemsArrayList.size();i++){
                 if(item.getIdentifier().equals(mToDoItemsArrayList.get(i).getIdentifier())){
                     mToDoItemsArrayList.set(i, item);
@@ -302,27 +263,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private AlarmManager getAlarmManager(){
-        return (AlarmManager)getSystemService(ALARM_SERVICE);
-    }
-
     private boolean doesPendingIntentExist(Intent i, int requestCode){
         PendingIntent pi = PendingIntent.getService(this,requestCode, i, PendingIntent.FLAG_NO_CREATE);
         return pi!=null;
-    }
-
-    private void createAlarm(Intent i, int requestCode, long timeInMillis){
-        AlarmManager am = getAlarmManager();
-        PendingIntent pi = PendingIntent.getService(this,requestCode, i, PendingIntent.FLAG_UPDATE_CURRENT);
-        am.set(AlarmManager.RTC_WAKEUP, timeInMillis, pi);
-    }
-    private void deleteAlarm(Intent i, int requestCode){
-        if(doesPendingIntentExist(i, requestCode)){
-            PendingIntent pi = PendingIntent.getService(this, requestCode,i, PendingIntent.FLAG_NO_CREATE);
-            pi.cancel();
-            getAlarmManager().cancel(pi);
-            Log.d("OskarSchindler", "PI Cancelled " + doesPendingIntentExist(i, requestCode));
-        }
     }
 
     private void addToDataStore(ToDoItem item){
@@ -334,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void makeUpItems(ArrayList<ToDoItem> items, int len){
         for (String testString : testStrings) {
-            ToDoItem item = new ToDoItem(testString, false, new Date());
+            ToDoItem item = new ToDoItem(testString);
             items.add(item);
         }
 
@@ -362,8 +305,6 @@ public class MainActivity extends AppCompatActivity {
         public void onItemRemoved(final int position) {
             mJustDeletedToDoItem =  items.remove(position);
             mIndexOfDeletedToDoItem = position;
-            Intent i = new Intent(MainActivity.this,TodoNotificationService.class);
-            deleteAlarm(i, mJustDeletedToDoItem.getIdentifier().hashCode());
             notifyItemRemoved(position);
 
             String toShow = "Todo";
@@ -372,12 +313,6 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             items.add(mIndexOfDeletedToDoItem, mJustDeletedToDoItem);
-                            if(mJustDeletedToDoItem.getToDoDate()!=null && mJustDeletedToDoItem.hasReminder()){
-                                Intent i = new Intent(MainActivity.this, TodoNotificationService.class);
-                                i.putExtra(TodoNotificationService.TODOTEXT, mJustDeletedToDoItem.getToDoText());
-                                i.putExtra(TodoNotificationService.TODOUUID, mJustDeletedToDoItem.getIdentifier());
-                                createAlarm(i, mJustDeletedToDoItem.getIdentifier().hashCode(), mJustDeletedToDoItem.getToDoDate().getTime());
-                            }
                             notifyItemInserted(mIndexOfDeletedToDoItem);
                         }
                     }).show();
@@ -407,14 +342,7 @@ public class MainActivity extends AppCompatActivity {
             }
             holder.linearLayout.setBackgroundColor(bgColor);
 
-            if(item.hasReminder() && item.getToDoDate()!=null){
-                holder.mToDoTextview.setMaxLines(1);
-                holder.mTimeTextView.setVisibility(View.VISIBLE);
-            }
-            else{
-                holder.mTimeTextView.setVisibility(View.GONE);
-                holder.mToDoTextview.setMaxLines(2);
-            }
+            holder.mToDoTextview.setMaxLines(2);
             holder.mToDoTextview.setText(item.getToDoText());
             holder.mToDoTextview.setTextColor(todoTextColor);
             TextDrawable myDrawable = TextDrawable.builder().beginConfig()
@@ -425,16 +353,6 @@ public class MainActivity extends AppCompatActivity {
                     .buildRound(item.getToDoText().substring(0,1),item.getTodoColor());
 
             holder.mColorImageView.setImageDrawable(myDrawable);
-            if(item.getToDoDate()!=null){
-                String timeToShow;
-                if(android.text.format.DateFormat.is24HourFormat(MainActivity.this)){
-                    timeToShow = AddToDoActivity.formatDate(MainActivity.DATE_TIME_FORMAT_24_HOUR, item.getToDoDate());
-                }
-                else{
-                    timeToShow = AddToDoActivity.formatDate(MainActivity.DATE_TIME_FORMAT_12_HOUR, item.getToDoDate());
-                }
-                holder.mTimeTextView.setText(timeToShow);
-            }
 
 
         }
@@ -457,7 +375,6 @@ public class MainActivity extends AppCompatActivity {
             LinearLayout linearLayout;
             TextView mToDoTextview;
             ImageView mColorImageView;
-            TextView mTimeTextView;
 
             public ViewHolder(View v){
                 super(v);
@@ -472,7 +389,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 mToDoTextview = (TextView)v.findViewById(R.id.toDoListItemTextview);
-                mTimeTextView = (TextView)v.findViewById(R.id.todoListItemTimeTextView);
                 mColorImageView = (ImageView)v.findViewById(R.id.toDoListItemColorImageView);
                 linearLayout = (LinearLayout)v.findViewById(R.id.listItemLinearLayout);
             }
@@ -481,14 +397,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void saveDate(){
-        try {
-            storeRetrieveData.saveToFile(mToDoItemsArrayList);
-        } catch (JSONException | IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     @Override
     protected void onPause() {
