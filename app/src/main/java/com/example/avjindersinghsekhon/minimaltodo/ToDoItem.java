@@ -59,5 +59,15 @@ public class ToDoItem implements Serializable{
     public UUID getIdentifier(){
         return mTodoIdentifier;
     }
+
+    /** Check equal ID and todo text. */
+    public boolean equals(Object obj) {
+        if (obj instanceof ToDoItem) {
+            ToDoItem item = (ToDoItem) obj;
+            return item.getIdentifier().equals(this.getIdentifier()) &&
+                item.getToDoText().equals(this.getToDoText());
+        }
+        return false;
+    }
 }
 

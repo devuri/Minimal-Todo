@@ -20,7 +20,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-
 package com.example.avjindersinghsekhon.minimaltodo;
 
 import android.content.Context;
@@ -38,7 +37,7 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
 
     private MainActivity mMainActivity;
     private ArrayList<ToDoItem> mOriginalData;
-    ArrayList<ToDoItem> mTestData;
+    private ArrayList<ToDoItem> mTestData;
 
     public TestStoreRetrieveData() {
         super(MainActivity.class);
@@ -46,10 +45,7 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
         // Create some test data
         mTestData = new ArrayList<>();
         for (int i = 1; i < 11; i++) {
-            mTestData.add(new ToDoItem(
-                    "item" + i,
-                    false,
-                    new Date()));
+            mTestData.add(new ToDoItem("item" + i));
         }
     }
 
@@ -80,7 +76,6 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-
         // Let's restore the data we might have wiped out during setUp()...
         StoreRetrieveData dataStorage = getDataStorage();
         dataStorage.saveToFile(mOriginalData);
@@ -133,8 +128,7 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
             boolean found = false;
             for (ToDoItem testItem : mTestData) {
                 // Check the items are same
-                if (retrievedItem.getIdentifier().equals(testItem.getIdentifier()) &&
-                        retrievedItem.getToDoText().equals(testItem.getToDoText())) {
+                if (retrievedItem.equals(testItem)) {
                     found = true;
                     break;
                 }
