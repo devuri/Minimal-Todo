@@ -5,7 +5,6 @@
     android:gravity="center"
     android:layout_height="match_parent">
 
-    <!--<include layout="@layout/base_toolbar"/>-->
     <android.support.design.widget.CoordinatorLayout
             android:id="@+id/myCoordinatorLayout"
             android:layout_width="match_parent"
@@ -46,18 +45,11 @@
             <include layout="@layout/base_toolbar"/>
         </android.support.design.widget.AppBarLayout>
 
-            <!--<include layout="@layout/base_toolbar"/>-->
-
-
-        <!--</android.support.design.widget.AppBarLayout>-->
-
-
-            <com.example.avjindersinghsekhon.minimaltodo.RecyclerViewEmptySupport
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:id="@+id/toDoRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
+        <com.example.avjindersinghsekhon.minimaltodo.RecyclerViewEmptySupport
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/toDoRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
         <android.support.design.widget.FloatingActionButton
             android:src="@drawable/ic_add_white_24dp"
@@ -69,7 +61,6 @@
             app:layout_anchorGravity="bottom|right|end"
             app:layout_behavior="com.example.avjindersinghsekhon.minimaltodo.ScrollingFABBehaviour"
             />
-
 
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
