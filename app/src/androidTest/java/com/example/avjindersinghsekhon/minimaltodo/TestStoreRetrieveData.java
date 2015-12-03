@@ -26,9 +26,10 @@ import android.content.Context;
 import android.test.ActivityUnitTestCase;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Test cases for StoreRetrieveData class
@@ -57,19 +58,12 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
 
         // Save the original data and wipe out the storage
         StoreRetrieveData dataStorage = getDataStorage();
-        try {
-            ArrayList<ToDoItem> items = dataStorage.loadFromFile();
-
-            if (items.size() > 0) {
-                mOriginalData.clear();
-                mOriginalData.addAll(items);
-
-                items.clear();
-                dataStorage.saveToFile(items);
-            }
-
-        } catch (Exception e) {
-            fail("Couldn't store data: " + e.getMessage());
+        ArrayList<ToDoItem> items = dataStorage.loadFromFile();
+        if (items.size() > 0) {
+            mOriginalData.clear();
+            mOriginalData.addAll(items);
+            items.clear();
+            dataStorage.saveToFile(items);
         }
     }
 
@@ -84,39 +78,26 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
     /**
      * We should have an empty data storage at hand for the starters
      */
-    public void testPreconditions() {
+    public void testPreconditions() throws IOException, JSONException {
         StoreRetrieveData dataStorage = getDataStorage();
 
         ArrayList<ToDoItem> items = null;
-        try {
-            items = dataStorage.loadFromFile();
-        } catch (Exception e) {
-            fail("Couldn't read from data storage: " + e.getMessage());
-        }
-
+        items = dataStorage.loadFromFile();
         assertEquals(0, items.size());
     }
 
     /**
      * Write items to data storage and ensure those same items can be retrieved from the storage.
      */
-    public void testWritingToAndReadingFromTheDataStorage() {
+    public void testWritingToAndReadingFromTheDataStorage() throws IOException, JSONException {
         StoreRetrieveData dataStorage = getDataStorage();
         ArrayList<ToDoItem> retrievedItems = new ArrayList<>();
 
         // Persist the test data
-        try {
-            dataStorage.saveToFile(mTestData);
-        } catch (Exception e) {
-            fail("Couldn't store data: " + e.getMessage());
-        }
+        dataStorage.saveToFile(mTestData);
 
         // Read from storage
-        try {
-            retrievedItems = dataStorage.loadFromFile();
-        } catch (Exception e) {
-            fail("Couldn't read from data storage: " + e.getMessage());
-        }
+        retrievedItems = dataStorage.loadFromFile();
 
         // We should have equal amount of items than what we just stored
         assertEquals(mTestData.size(), retrievedItems.size());
@@ -133,7 +114,6 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
                     break;
                 }
             }
-
             if (!found) {
                 fail("Content mis-match between test data and data retrieved from the storage!");
             }
@@ -143,13 +123,9 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
     /**
      * Ensure JSONArray conversion works as intended
      */
-    public void testArrayListToJsonArrayConversion() {
-        try {
-            JSONArray array = StoreRetrieveData.toJSONArray(mTestData);
-            assertEquals(mTestData.size(), array.length());
-        } catch (Exception e) {
-            fail("Exception thrown when converting to JSONArray: " + e.getMessage());
-        }
+    public void testArrayListToJsonArrayConversion() throws JSONException {
+        JSONArray array = StoreRetrieveData.toJSONArray(mTestData);
+        assertEquals(mTestData.size(), array.length());
     }
 
     private StoreRetrieveData getDataStorage() {
