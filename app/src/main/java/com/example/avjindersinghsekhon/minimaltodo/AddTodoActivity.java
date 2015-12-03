@@ -17,10 +17,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 
-public class AddToDoActivity extends AppCompatActivity {
+public class AddTodoActivity extends AppCompatActivity {
     private EditText mToDoTextBodyEditText;
 
-    private ToDoItem mUserToDoItem;
+    private TodoItem mUserTodoItem;
     private FloatingActionButton mToDoSendFloatingActionButton;
 
     private String mUserEnteredText;
@@ -62,10 +62,10 @@ public class AddToDoActivity extends AppCompatActivity {
         }
 
 
-        mUserToDoItem = (ToDoItem)getIntent().getSerializableExtra(MainActivity.TODOITEM);
+        mUserTodoItem = (TodoItem)getIntent().getSerializableExtra(MainActivity.TODOITEM);
 
-        mUserEnteredText = mUserToDoItem.getToDoText();
-        mUserColor = mUserToDoItem.getTodoColor();
+        mUserEnteredText = mUserTodoItem.getTodoText();
+        mUserColor = mUserTodoItem.getTodoColor();
         mToDoTextBodyEditText = (EditText)findViewById(R.id.userToDoEditText);
         mToDoSendFloatingActionButton = (FloatingActionButton)findViewById(R.id.makeToDoFloatingActionButton);
 
@@ -108,19 +108,18 @@ public class AddToDoActivity extends AppCompatActivity {
     private String getThemeSet(){
         return getSharedPreferences(MainActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(MainActivity.THEME_SAVED, MainActivity.LIGHTTHEME);
     }
+
     public void hideKeyboard(EditText et){
 
         InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
     }
 
-
-
     public void makeResult(int result){
         Intent i = new Intent();
-        mUserToDoItem.setToDoText(mUserEnteredText);
-        mUserToDoItem.setTodoColor(mUserColor);
-        i.putExtra(MainActivity.TODOITEM, mUserToDoItem);
+        mUserTodoItem.setTodoText(mUserEnteredText);
+        mUserTodoItem.setTodoColor(mUserColor);
+        i.putExtra(MainActivity.TODOITEM, mUserTodoItem);
         setResult(result, i);
     }
 

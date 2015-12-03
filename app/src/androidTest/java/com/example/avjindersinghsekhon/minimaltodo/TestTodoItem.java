@@ -29,43 +29,43 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * JUnit tests to verify functionality of ToDoItem class.
+ * JUnit tests to verify functionality of TodoItem class.
  */
 public class TestTodoItem extends TestCase {
     private final String TEXT_BODY = "This is some text and special chars äöü ~²!";
 
      /**
-      * Check we can construct a ToDoItem object using the constructor
+      * Check we can construct a TodoItem object using the constructor
       */
     public void testConstructor() {
         // empty constructor
-        ToDoItem item = new ToDoItem();
-        assertEquals(ToDoItem.DEFAULT_TEXT, item.getToDoText());
+        TodoItem item = new TodoItem();
+        assertEquals(TodoItem.DEFAULT_TEXT, item.getTodoText());
         // constructor with text
         item = getToDoItem();
-        assertEquals(TEXT_BODY, item.getToDoText());
+        assertEquals(TEXT_BODY, item.getTodoText());
     }
 
      /**
-      * Ensure we can marshall ToDoItem objects to Json
+      * Ensure we can marshall TodoItem objects to Json
       */
     public void testObjectMarshallingToJson() throws JSONException {
-        ToDoItem toDoItem = getToDoItem();
-        JSONObject json = toDoItem.toJSON();
+        TodoItem todoItem = getToDoItem();
+        JSONObject json = todoItem.toJSON();
         assertEquals(TEXT_BODY, json.getString("todotext"));
     }
 
     /**
-    * Ensure we can create ToDoItem objects from Json data by using the json constructor
+    * Ensure we can create TodoItem objects from Json data by using the json constructor
     */
     public void testObjectUnmarshallingFromJson() throws JSONException {
-        ToDoItem originalItem = getToDoItem();
+        TodoItem originalItem = getToDoItem();
         JSONObject json = originalItem.toJSON();
-        ToDoItem itemFromJson = new ToDoItem(json);
+        TodoItem itemFromJson = new TodoItem(json);
         assertEquals(originalItem, itemFromJson);
     }
 
-    private ToDoItem getToDoItem() {
-        return new ToDoItem(TEXT_BODY);
+    private TodoItem getToDoItem() {
+        return new TodoItem(TEXT_BODY);
     }
 }

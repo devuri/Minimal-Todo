@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AddToDoActivity"
+        <activity android:name=".AddTodoActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
             />

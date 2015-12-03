@@ -39,12 +39,12 @@ import java.util.Collections;
 public class MainActivity extends AppCompatActivity {
     private RecyclerViewEmptySupport mRecyclerView;
     private FloatingActionButton mAddToDoItemFAB;
-    private ArrayList<ToDoItem> mToDoItemsArrayList;
+    private ArrayList<TodoItem> mTodoItemsArrayList;
     private CoordinatorLayout mCoordLayout;
     public static final String TODOITEM = "com.avjindersinghsekhon.com.avjindersinghsekhon.minimaltodo.MainActivity";
     private BasicListAdapter adapter;
     private static final int REQUEST_ID_TODO_ITEM = 100;
-    private ToDoItem mJustDeletedToDoItem;
+    private TodoItem mJustDeletedTodoItem;
     private int mIndexOfDeletedToDoItem;
     public static final String FILENAME = "todoitems.json";
     private StoreRetrieveData storeRetrieveData;
@@ -63,10 +63,8 @@ public class MainActivity extends AppCompatActivity {
             "Get my dry cleaning"
     };
 
-
-
-    public static ArrayList<ToDoItem> getLocallyStoredData(StoreRetrieveData storeRetrieveData){
-        ArrayList<ToDoItem> items = null;
+    public static ArrayList<TodoItem> getLocallyStoredData(StoreRetrieveData storeRetrieveData){
+        ArrayList<TodoItem> items = null;
 
         try {
             items  = storeRetrieveData.loadFromFile();
@@ -79,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
             items = new ArrayList<>();
         }
         return items;
-
     }
 
     @Override
@@ -103,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
             recreate();
         }
-
-
     }
 
     @Override
@@ -113,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_DATA_SET_CHANGED, MODE_PRIVATE);
         if(sharedPreferences.getBoolean(CHANGE_OCCURED, false)){
 
-            mToDoItemsArrayList = getLocallyStoredData(storeRetrieveData);
-            adapter = new BasicListAdapter(mToDoItemsArrayList);
+            mTodoItemsArrayList = getLocallyStoredData(storeRetrieveData);
+            adapter = new BasicListAdapter(mTodoItemsArrayList);
             mRecyclerView.setAdapter(adapter);
 
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -142,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
 
         storeRetrieveData = new StoreRetrieveData(this, FILENAME);
-        mToDoItemsArrayList =  getLocallyStoredData(storeRetrieveData);
-        adapter = new BasicListAdapter(mToDoItemsArrayList);
+        mTodoItemsArrayList =  getLocallyStoredData(storeRetrieveData);
+        adapter = new BasicListAdapter(mTodoItemsArrayList);
 
         final android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -154,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
-                Intent newTodo = new Intent(MainActivity.this, AddToDoActivity.class);
-                ToDoItem item = new ToDoItem("");
+                Intent newTodo = new Intent(MainActivity.this, AddTodoActivity.class);
+                TodoItem item = new TodoItem("");
                 int color = ColorGenerator.MATERIAL.getRandomColor();
                 item.setTodoColor(color);
                 newTodo.putExtra(TODOITEM, item);
@@ -238,21 +233,21 @@ public class MainActivity extends AppCompatActivity {
 
     /** Get the current todo list as a string - one line for each item. */
     private String getToDoListAsString() {
-        return TextUtils.join("\n", mToDoItemsArrayList);
+        return TextUtils.join("\n", mTodoItemsArrayList);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode!= RESULT_CANCELED && requestCode == REQUEST_ID_TODO_ITEM){
-            ToDoItem item =(ToDoItem) data.getSerializableExtra(TODOITEM);
-            if(!item.hasToDoText()){
+            TodoItem item =(TodoItem) data.getSerializableExtra(TODOITEM);
+            if(!item.hasTodoText()){
                 return;
             }
             boolean existed = false;
 
-            for(int i = 0; i<mToDoItemsArrayList.size();i++){
-                if(item.getIdentifier().equals(mToDoItemsArrayList.get(i).getIdentifier())){
-                    mToDoItemsArrayList.set(i, item);
+            for(int i = 0; i< mTodoItemsArrayList.size(); i++){
+                if(item.getIdentifier().equals(mTodoItemsArrayList.get(i).getIdentifier())){
+                    mTodoItemsArrayList.set(i, item);
                     existed = true;
                     adapter.notifyDataSetChanged();
                     break;
@@ -269,23 +264,23 @@ public class MainActivity extends AppCompatActivity {
         return pi!=null;
     }
 
-    private void addToDataStore(ToDoItem item){
-        mToDoItemsArrayList.add(item);
-        adapter.notifyItemInserted(mToDoItemsArrayList.size() - 1);
+    private void addToDataStore(TodoItem item){
+        mTodoItemsArrayList.add(item);
+        adapter.notifyItemInserted(mTodoItemsArrayList.size() - 1);
 
     }
 
 
-    public void makeUpItems(ArrayList<ToDoItem> items, int len){
+    public void makeUpItems(ArrayList<TodoItem> items, int len){
         for (String testString : testStrings) {
-            ToDoItem item = new ToDoItem(testString);
+            TodoItem item = new TodoItem(testString);
             items.add(item);
         }
 
     }
 
     public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter{
-        private ArrayList<ToDoItem> mItems;
+        private ArrayList<TodoItem> mItems;
 
         @Override
         public void onItemMoved(int fromPosition, int toPosition) {
@@ -304,18 +299,18 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onItemRemoved(final int position) {
-            mJustDeletedToDoItem =  mItems.remove(position);
+            mJustDeletedTodoItem =  mItems.remove(position);
             mIndexOfDeletedToDoItem = position;
             notifyItemRemoved(position);
             // Display the just deleted todo item text in the snackbar
             // Note: the limit to 10 characters is somewhat arbitrary but simple and sufficient.
-            String text = String.format("Deleted %1.10s", mJustDeletedToDoItem.toString());
+            String text = String.format("Deleted %1.10s", mJustDeletedTodoItem.toString());
             // Show the snackbar undo link long enough for the user to undo the deletion
             Snackbar.make(mCoordLayout, text, Snackbar.LENGTH_LONG)
                     .setAction("UNDO", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mItems.add(mIndexOfDeletedToDoItem, mJustDeletedToDoItem);
+                            mItems.add(mIndexOfDeletedToDoItem, mJustDeletedTodoItem);
                             notifyItemInserted(mIndexOfDeletedToDoItem);
                         }
                     }).show();
@@ -329,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final BasicListAdapter.ViewHolder holder, final int position) {
-            ToDoItem item = mItems.get(position);
+            TodoItem item = mItems.get(position);
             SharedPreferences sharedPreferences = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE);
             //Background color for each to-do item. Necessary for night/day mode
             int bgColor;
@@ -353,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
                     .useFont(Typeface.DEFAULT)
                     .toUpperCase()
                     .endConfig()
-                    .buildRound(item.getToDoText().substring(0,1),item.getTodoColor());
+                    .buildRound(item.getTodoText().substring(0,1),item.getTodoColor());
 
             holder.mColorImageView.setImageDrawable(myDrawable);
         }
@@ -363,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
             return mItems.size();
         }
 
-        BasicListAdapter(ArrayList<ToDoItem> items){
+        BasicListAdapter(ArrayList<TodoItem> items){
             mItems = items;
         }
 
@@ -382,8 +377,8 @@ public class MainActivity extends AppCompatActivity {
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToDoItem item = mItems.get(ViewHolder.this.getAdapterPosition());
-                        Intent i = new Intent(MainActivity.this, AddToDoActivity.class);
+                        TodoItem item = mItems.get(ViewHolder.this.getAdapterPosition());
+                        Intent i = new Intent(MainActivity.this, AddTodoActivity.class);
                         i.putExtra(TODOITEM, item);
                         startActivityForResult(i, REQUEST_ID_TODO_ITEM);
                     }
@@ -400,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         try {
-            storeRetrieveData.saveToFile(mToDoItemsArrayList);
+            storeRetrieveData.saveToFile(mTodoItemsArrayList);
         } catch (JSONException | IOException e) {
             Log.e("Mini", "Could not save data", e);
         }

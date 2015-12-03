@@ -37,8 +37,8 @@ import java.util.ArrayList;
 public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
 
     private MainActivity mMainActivity;
-    private ArrayList<ToDoItem> mOriginalData;
-    private ArrayList<ToDoItem> mTestData;
+    private ArrayList<TodoItem> mOriginalData;
+    private ArrayList<TodoItem> mTestData;
 
     public TestStoreRetrieveData() {
         super(MainActivity.class);
@@ -46,7 +46,7 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
         // Create some test data
         mTestData = new ArrayList<>();
         for (int i = 1; i < 11; i++) {
-            mTestData.add(new ToDoItem("item" + i));
+            mTestData.add(new TodoItem("item" + i));
         }
     }
 
@@ -58,7 +58,7 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
 
         // Save the original data and wipe out the storage
         StoreRetrieveData dataStorage = getDataStorage();
-        ArrayList<ToDoItem> items = dataStorage.loadFromFile();
+        ArrayList<TodoItem> items = dataStorage.loadFromFile();
         if (items.size() > 0) {
             mOriginalData.clear();
             mOriginalData.addAll(items);
@@ -81,7 +81,7 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
     public void testPreconditions() throws IOException, JSONException {
         StoreRetrieveData dataStorage = getDataStorage();
 
-        ArrayList<ToDoItem> items = null;
+        ArrayList<TodoItem> items = null;
         items = dataStorage.loadFromFile();
         assertEquals(0, items.size());
     }
@@ -91,7 +91,7 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
      */
     public void testWritingToAndReadingFromTheDataStorage() throws IOException, JSONException {
         StoreRetrieveData dataStorage = getDataStorage();
-        ArrayList<ToDoItem> retrievedItems = new ArrayList<>();
+        ArrayList<TodoItem> retrievedItems = new ArrayList<>();
 
         // Persist the test data
         dataStorage.saveToFile(mTestData);
@@ -103,11 +103,11 @@ public class TestStoreRetrieveData extends ActivityUnitTestCase<MainActivity> {
         assertEquals(mTestData.size(), retrievedItems.size());
 
         // The content should be same as well...
-        for (ToDoItem retrievedItem : retrievedItems) {
+        for (TodoItem retrievedItem : retrievedItems) {
             // We want to be sure every single item in data storage can also be found from
             // our test data collection
             boolean found = false;
-            for (ToDoItem testItem : mTestData) {
+            for (TodoItem testItem : mTestData) {
                 // Check the items are same
                 if (retrievedItem.equals(testItem)) {
                     found = true;

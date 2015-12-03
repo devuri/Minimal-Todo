@@ -6,8 +6,8 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class ToDoItem implements Serializable{
-    private String mToDoText;
+public class TodoItem implements Serializable{
+    private String mTodoText;
     private int mTodoColor;
     private UUID mTodoIdentifier;
     private static final String TODOTEXT = "todotext";
@@ -17,40 +17,40 @@ public class ToDoItem implements Serializable{
     public static String DEFAULT_TEXT = "Clean my room";
 
 
-    public ToDoItem(String todoBody){
-        mToDoText = todoBody;
+    public TodoItem(String todoBody){
+        mTodoText = todoBody;
         mTodoColor = 1677725;
         mTodoIdentifier = UUID.randomUUID();
     }
 
-    public ToDoItem(JSONObject jsonObject) throws JSONException{
-        mToDoText = jsonObject.getString(TODOTEXT);
+    public TodoItem(JSONObject jsonObject) throws JSONException{
+        mTodoText = jsonObject.getString(TODOTEXT);
         mTodoColor = jsonObject.getInt(TODOCOLOR);
         mTodoIdentifier = UUID.fromString(jsonObject.getString(TODOIDENTIFIER));
     }
 
     public JSONObject toJSON() throws JSONException{
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put(TODOTEXT, mToDoText);
+        jsonObject.put(TODOTEXT, mTodoText);
         jsonObject.put(TODOCOLOR, mTodoColor);
         jsonObject.put(TODOIDENTIFIER, mTodoIdentifier.toString());
         return jsonObject;
     }
 
-    public ToDoItem(){
+    public TodoItem(){
         this(DEFAULT_TEXT);
     }
 
-    public String getToDoText() {
-        return mToDoText;
+    public String getTodoText() {
+        return mTodoText;
     }
 
-    public void setToDoText(String mToDoText) {
-        this.mToDoText = mToDoText;
+    public void setTodoText(String mToDoText) {
+        this.mTodoText = mToDoText;
     }
 
-    public boolean hasToDoText() {
-        return getToDoText().length() > 0;
+    public boolean hasTodoText() {
+        return getTodoText().length() > 0;
     }
 
     public int getTodoColor() {
@@ -67,17 +67,17 @@ public class ToDoItem implements Serializable{
 
     /** Check equal ID and todo text. */
     public boolean equals(Object obj) {
-        if (obj instanceof ToDoItem) {
-            ToDoItem item = (ToDoItem) obj;
+        if (obj instanceof TodoItem) {
+            TodoItem item = (TodoItem) obj;
             return item.getIdentifier().equals(this.getIdentifier()) &&
-                item.getToDoText().equals(this.getToDoText());
+                item.getTodoText().equals(this.getTodoText());
         }
         return false;
     }
 
     /** The normal string representation of an item is its text */
     public String toString() {
-        return getToDoText();
+        return getTodoText();
     }
 }
 
