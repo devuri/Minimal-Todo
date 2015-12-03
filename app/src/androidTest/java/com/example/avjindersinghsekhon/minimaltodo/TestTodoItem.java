@@ -28,52 +28,41 @@ import junit.framework.TestCase;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
-
 /**
  * JUnit tests to verify functionality of ToDoItem class.
  */
 public class TestTodoItem extends TestCase {
-    private final String TEXT_BODY = "This is some text";
+    private final String TEXT_BODY = "This is some text and special chars äöü ~²!";
 
      /**
-      * Check we can construct a ToDoItem object using the three parameter constructor
+      * Check we can construct a ToDoItem object using the constructor
       */
-    public void testThreeParameterConstructor() {
-        ToDoItem toDoItem = getToDoItem();
-        assertEquals(TEXT_BODY, toDoItem.getToDoText());
+    public void testConstructor() {
+        // empty constructor
+        ToDoItem item = new ToDoItem();
+        assertEquals(ToDoItem.DEFAULT_TEXT, item.getToDoText());
+        // constructor with text
+        item = getToDoItem();
+        assertEquals(TEXT_BODY, item.getToDoText());
     }
 
      /**
       * Ensure we can marshall ToDoItem objects to Json
       */
-    public void testObjectMarshallingToJson() {
+    public void testObjectMarshallingToJson() throws JSONException {
         ToDoItem toDoItem = getToDoItem();
-
-        try {
-            JSONObject json = toDoItem.toJSON();
-            assertEquals(TEXT_BODY, json.getString("todotext"));
-        } catch (JSONException e) {
-            fail("Exception thrown during test execution: " + e.getMessage());
-        }
+        JSONObject json = toDoItem.toJSON();
+        assertEquals(TEXT_BODY, json.getString("todotext"));
     }
 
     /**
     * Ensure we can create ToDoItem objects from Json data by using the json constructor
     */
-    public void testObjectUnmarshallingFromJson() {
+    public void testObjectUnmarshallingFromJson() throws JSONException {
         ToDoItem originalItem = getToDoItem();
-
-        try {
-            JSONObject json = originalItem.toJSON();
-            ToDoItem itemFromJson = new ToDoItem(json);
-
-            assertEquals(originalItem.getToDoText(), itemFromJson.getToDoText());
-            assertEquals(originalItem.getIdentifier(), itemFromJson.getIdentifier());
-
-        } catch (JSONException e) {
-            fail("Exception thrown during test execution: " + e.getMessage());
-        }
+        JSONObject json = originalItem.toJSON();
+        ToDoItem itemFromJson = new ToDoItem(json);
+        assertEquals(originalItem, itemFromJson);
     }
 
     private ToDoItem getToDoItem() {
