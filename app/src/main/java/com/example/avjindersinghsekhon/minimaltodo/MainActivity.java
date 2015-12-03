@@ -303,8 +303,8 @@ public class MainActivity extends AppCompatActivity {
             mIndexOfDeletedToDoItem = position;
             notifyItemRemoved(position);
             // Display the just deleted todo item text in the snackbar
-            // Note: the limit to 10 characters is somewhat arbitrary but simple and sufficient.
-            String text = String.format("Deleted %1.10s", mJustDeletedTodoItem.toString());
+            // Note: the limit to 20 characters is somewhat arbitrary but simple and sufficient.
+            String text = String.format("Deleted %1.20s", mJustDeletedTodoItem.toString());
             // Show the snackbar undo link long enough for the user to undo the deletion
             Snackbar.make(mCoordLayout, text, Snackbar.LENGTH_LONG)
                     .setAction("UNDO", new View.OnClickListener() {
