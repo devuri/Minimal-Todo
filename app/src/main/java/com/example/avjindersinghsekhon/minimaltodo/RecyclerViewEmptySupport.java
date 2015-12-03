@@ -6,24 +6,25 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class RecyclerViewEmptySupport extends RecyclerView {
+    /* View to display when the model list is empty */
     private View emptyView;
 
     private AdapterDataObserver observer = new AdapterDataObserver() {
         @Override
         public void onChanged() {
-            showEmptyView();
+            checkShowEmptyView();
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
             super.onItemRangeInserted(positionStart, itemCount);
-            showEmptyView();
+            checkShowEmptyView();
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
             super.onItemRangeRemoved(positionStart, itemCount);
-            showEmptyView();
+            checkShowEmptyView();
         }
     };
 
@@ -33,17 +34,19 @@ public class RecyclerViewEmptySupport extends RecyclerView {
         super(context);
     }
 
-    public void showEmptyView(){
-
+    /* Display empty view when model list is empty */
+    protected void checkShowEmptyView(){
         Adapter<?> adapter = getAdapter();
         if(adapter!=null && emptyView!=null){
             if(adapter.getItemCount()==0){
+                // no items in model, show empty view
                 emptyView.setVisibility(VISIBLE);
-                RecyclerViewEmptySupport.this.setVisibility(GONE);
+                setVisibility(GONE);
             }
             else{
+                // hide empty view and show the original list view
                 emptyView.setVisibility(GONE);
-                RecyclerViewEmptySupport.this.setVisibility(VISIBLE);
+                setVisibility(VISIBLE);
             }
         }
 

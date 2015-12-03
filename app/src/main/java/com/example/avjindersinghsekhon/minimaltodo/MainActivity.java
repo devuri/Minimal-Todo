@@ -25,6 +25,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.text.TextUtils;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -51,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private CustomRecyclerScrollViewListener customRecyclerScrollViewListener;
     public static final String SHARED_PREF_DATA_SET_CHANGED = "com.avjindersekhon.datasetchanged";
     public static final String CHANGE_OCCURED = "com.avjinder.changeoccured";
-    private int mTheme = -1;
-    private String theme = "name_of_the_theme";
     public static final String THEME_PREFERENCES = "com.avjindersekhon.themepref";
     public static final String RECREATE_ACTIVITY = "com.avjindersekhon.recreateactivity";
     public static final String THEME_SAVED = "com.avjindersekhon.savedtheme";
@@ -126,20 +125,16 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         //We recover the theme we've set and setTheme accordingly
-        theme = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE).getString(THEME_SAVED, LIGHTTHEME);
-
+        String theme = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE).getString(THEME_SAVED, LIGHTTHEME);
         if(theme.equals(LIGHTTHEME)){
-            mTheme = R.style.CustomStyle_LightTheme;
+            setTheme(R.style.CustomStyle_LightTheme);
         }
         else{
-            mTheme = R.style.CustomStyle_DarkTheme;
+            setTheme(R.style.CustomStyle_DarkTheme);
         }
-        this.setTheme(mTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_DATA_SET_CHANGED, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -153,12 +148,9 @@ public class MainActivity extends AppCompatActivity {
         final android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         mCoordLayout = (CoordinatorLayout)findViewById(R.id.myCoordinatorLayout);
         mAddToDoItemFAB = (FloatingActionButton)findViewById(R.id.addToDoItemFAB);
-
         mAddToDoItemFAB.setOnClickListener(new View.OnClickListener() {
-
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
@@ -171,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         mRecyclerView = (RecyclerViewEmptySupport)findViewById(R.id.toDoRecyclerView);
         if(theme.equals(LIGHTTHEME)){
             mRecyclerView.setBackgroundColor(getResources().getColor(R.color.primary_lightest));
@@ -180,8 +171,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
 
         customRecyclerScrollViewListener = new CustomRecyclerScrollViewListener() {
             @Override
@@ -200,11 +189,9 @@ public class MainActivity extends AppCompatActivity {
         };
         mRecyclerView.addOnScrollListener(customRecyclerScrollViewListener);
 
-
         ItemTouchHelper.Callback callback = new ItemTouchHelperClass(adapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
-
 
         mRecyclerView.setAdapter(adapter);
     }
@@ -226,24 +213,39 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.aboutMeMenuItem:
-                Intent i = new Intent(this, AboutActivity.class);
-                startActivity(i);
+                startActivity(new Intent(this, AboutActivity.class));
                 return true;
             case R.id.preferences:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
-
+            case R.id.menu_sendto:
+                return sendToDoList();
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /** Send a string representation of the current todo list */
+    private boolean sendToDoList() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.send_to_subject);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, getToDoListAsString());
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+        return true;
+    }
+
+    /** Get the current todo list as a string - one line for each item. */
+    private String getToDoListAsString() {
+        return TextUtils.join("\n", mToDoItemsArrayList);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode!= RESULT_CANCELED && requestCode == REQUEST_ID_TODO_ITEM){
             ToDoItem item =(ToDoItem) data.getSerializableExtra(TODOITEM);
-            if(item.getToDoText().length()<=0){
+            if(!item.hasToDoText()){
                 return;
             }
             boolean existed = false;
@@ -259,8 +261,6 @@ public class MainActivity extends AppCompatActivity {
             if(!existed) {
                 addToDataStore(item);
             }
-
-
         }
     }
 
@@ -285,18 +285,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter{
-        private ArrayList<ToDoItem> items;
+        private ArrayList<ToDoItem> mItems;
 
         @Override
         public void onItemMoved(int fromPosition, int toPosition) {
            if(fromPosition<toPosition){
                for(int i=fromPosition; i<toPosition; i++){
-                   Collections.swap(items, i, i+1);
+                   Collections.swap(mItems, i, i+1);
                }
            }
             else{
                for(int i=fromPosition; i > toPosition; i--){
-                   Collections.swap(items, i, i-1);
+                   Collections.swap(mItems, i, i-1);
                }
            }
             notifyItemMoved(fromPosition, toPosition);
@@ -304,16 +304,18 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onItemRemoved(final int position) {
-            mJustDeletedToDoItem =  items.remove(position);
+            mJustDeletedToDoItem =  mItems.remove(position);
             mIndexOfDeletedToDoItem = position;
             notifyItemRemoved(position);
-
-            String toShow = "Todo";
-            Snackbar.make(mCoordLayout, "Deleted "+toShow,Snackbar.LENGTH_LONG)
+            // Display the just deleted todo item text in the snackbar
+            // Note: the limit to 10 characters is somewhat arbitrary but simple and sufficient.
+            String text = String.format("Deleted %1.10s", mJustDeletedToDoItem.toString());
+            // Show the snackbar undo link long enough for the user to undo the deletion
+            Snackbar.make(mCoordLayout, text, Snackbar.LENGTH_LONG)
                     .setAction("UNDO", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            items.add(mIndexOfDeletedToDoItem, mJustDeletedToDoItem);
+                            mItems.add(mIndexOfDeletedToDoItem, mJustDeletedToDoItem);
                             notifyItemInserted(mIndexOfDeletedToDoItem);
                         }
                     }).show();
@@ -327,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final BasicListAdapter.ViewHolder holder, final int position) {
-            ToDoItem item = items.get(position);
+            ToDoItem item = mItems.get(position);
             SharedPreferences sharedPreferences = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE);
             //Background color for each to-do item. Necessary for night/day mode
             int bgColor;
@@ -344,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
             holder.linearLayout.setBackgroundColor(bgColor);
 
             holder.mToDoTextview.setMaxLines(2);
-            holder.mToDoTextview.setText(item.getToDoText());
+            holder.mToDoTextview.setText(item.toString());
             holder.mToDoTextview.setTextColor(todoTextColor);
             TextDrawable myDrawable = TextDrawable.builder().beginConfig()
                     .textColor(Color.WHITE)
@@ -354,18 +356,15 @@ public class MainActivity extends AppCompatActivity {
                     .buildRound(item.getToDoText().substring(0,1),item.getTodoColor());
 
             holder.mColorImageView.setImageDrawable(myDrawable);
-
-
         }
 
         @Override
         public int getItemCount() {
-            return items.size();
+            return mItems.size();
         }
 
         BasicListAdapter(ArrayList<ToDoItem> items){
-
-            this.items = items;
+            mItems = items;
         }
 
 
@@ -383,7 +382,7 @@ public class MainActivity extends AppCompatActivity {
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToDoItem item = items.get(ViewHolder.this.getAdapterPosition());
+                        ToDoItem item = mItems.get(ViewHolder.this.getAdapterPosition());
                         Intent i = new Intent(MainActivity.this, AddToDoActivity.class);
                         i.putExtra(TODOITEM, item);
                         startActivityForResult(i, REQUEST_ID_TODO_ITEM);
@@ -393,8 +392,6 @@ public class MainActivity extends AppCompatActivity {
                 mColorImageView = (ImageView)v.findViewById(R.id.toDoListItemColorImageView);
                 linearLayout = (LinearLayout)v.findViewById(R.id.listItemLinearLayout);
             }
-
-
         }
     }
 
@@ -417,5 +414,3 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.removeOnScrollListener(customRecyclerScrollViewListener);
     }
 }
-
-
