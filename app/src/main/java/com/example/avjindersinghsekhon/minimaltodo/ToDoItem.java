@@ -14,6 +14,8 @@ public class ToDoItem implements Serializable{
     private static final String TODOCOLOR = "todocolor";
     private static final String TODOIDENTIFIER = "todoidentifier";
 
+    public static String DEFAULT_TEXT = "Clean my room";
+
 
     public ToDoItem(String todoBody){
         mToDoText = todoBody;
@@ -35,9 +37,8 @@ public class ToDoItem implements Serializable{
         return jsonObject;
     }
 
-
     public ToDoItem(){
-        this("Clean my room");
+        this(DEFAULT_TEXT);
     }
 
     public String getToDoText() {
@@ -46,6 +47,10 @@ public class ToDoItem implements Serializable{
 
     public void setToDoText(String mToDoText) {
         this.mToDoText = mToDoText;
+    }
+
+    public boolean hasToDoText() {
+        return getToDoText().length() > 0;
     }
 
     public int getTodoColor() {
@@ -68,6 +73,11 @@ public class ToDoItem implements Serializable{
                 item.getToDoText().equals(this.getToDoText());
         }
         return false;
+    }
+
+    /** The normal string representation of an item is its text */
+    public String toString() {
+        return getToDoText();
     }
 }
 
