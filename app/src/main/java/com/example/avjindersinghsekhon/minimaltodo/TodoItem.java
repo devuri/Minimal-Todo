@@ -45,8 +45,8 @@ public class TodoItem implements Serializable{
         return mTodoText;
     }
 
-    public void setTodoText(String mToDoText) {
-        this.mTodoText = mToDoText;
+    public void setTodoText(String mTodoText) {
+        this.mTodoText = mTodoText;
     }
 
     public boolean hasTodoText() {

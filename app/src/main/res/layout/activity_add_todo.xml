@@ -29,7 +29,7 @@
                     android:layout_height="match_parent"
                     >
                     <EditText
-                        android:id="@+id/userToDoEditText"
+                        android:id="@+id/userTodoEditText"
                         android:hint="@string/title"
                         android:lines="2"
                         android:inputType="textAutoCorrect|textCapSentences"
@@ -47,7 +47,7 @@
             </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/makeToDoFloatingActionButton"
+            android:id="@+id/makeTodoFloatingActionButton"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:src="@drawable/ic_send_white_18dp"

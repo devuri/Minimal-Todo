@@ -38,14 +38,14 @@ import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerViewEmptySupport mRecyclerView;
-    private FloatingActionButton mAddToDoItemFAB;
+    private FloatingActionButton mAddTodoItemFAB;
     private ArrayList<TodoItem> mTodoItemsArrayList;
     private CoordinatorLayout mCoordLayout;
     public static final String TODOITEM = "com.avjindersinghsekhon.com.avjindersinghsekhon.minimaltodo.MainActivity";
     private BasicListAdapter adapter;
     private static final int REQUEST_ID_TODO_ITEM = 100;
     private TodoItem mJustDeletedTodoItem;
-    private int mIndexOfDeletedToDoItem;
+    private int mIndexOfDeletedTodoItem;
     public static final String FILENAME = "todoitems.json";
     private StoreRetrieveData storeRetrieveData;
     public ItemTouchHelper itemTouchHelper;
@@ -144,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mCoordLayout = (CoordinatorLayout)findViewById(R.id.myCoordinatorLayout);
-        mAddToDoItemFAB = (FloatingActionButton)findViewById(R.id.addToDoItemFAB);
-        mAddToDoItemFAB.setOnClickListener(new View.OnClickListener() {
+        mAddTodoItemFAB = (FloatingActionButton)findViewById(R.id.addTodoItemFAB);
+        mAddTodoItemFAB.setOnClickListener(new View.OnClickListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
@@ -171,15 +171,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void show() {
 
-                mAddToDoItemFAB.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                mAddTodoItemFAB.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             }
 
             @Override
             public void hide() {
 
-                CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)mAddToDoItemFAB.getLayoutParams();
+                CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mAddTodoItemFAB.getLayoutParams();
                 int fabMargin = lp.bottomMargin;
-                mAddToDoItemFAB.animate().translationY(mAddToDoItemFAB.getHeight()+fabMargin).setInterpolator(new AccelerateInterpolator(2.0f)).start();
+                mAddTodoItemFAB.animate().translationY(mAddTodoItemFAB.getHeight()+fabMargin).setInterpolator(new AccelerateInterpolator(2.0f)).start();
             }
         };
         mRecyclerView.addOnScrollListener(customRecyclerScrollViewListener);
@@ -214,25 +214,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case R.id.menu_sendto:
-                return sendToDoList();
+                return sendTodoList();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     /** Send a string representation of the current todo list */
-    private boolean sendToDoList() {
+    private boolean sendTodoList() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.send_to_subject);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, getToDoListAsString());
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getText(R.string.send_to_subject));
+        sendIntent.putExtra(Intent.EXTRA_TEXT, getTodoListAsString());
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
         return true;
     }
 
     /** Get the current todo list as a string - one line for each item. */
-    private String getToDoListAsString() {
+    private String getTodoListAsString() {
         return TextUtils.join("\n", mTodoItemsArrayList);
     }
 
@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemRemoved(final int position) {
             mJustDeletedTodoItem =  mItems.remove(position);
-            mIndexOfDeletedToDoItem = position;
+            mIndexOfDeletedTodoItem = position;
             notifyItemRemoved(position);
             // Display the just deleted todo item text in the snackbar
             // Note: the limit to 20 characters is somewhat arbitrary but simple and sufficient.
@@ -311,8 +311,8 @@ public class MainActivity extends AppCompatActivity {
                     .setAction("UNDO", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mItems.add(mIndexOfDeletedToDoItem, mJustDeletedTodoItem);
-                            notifyItemInserted(mIndexOfDeletedToDoItem);
+                            mItems.add(mIndexOfDeletedTodoItem, mJustDeletedTodoItem);
+                            notifyItemInserted(mIndexOfDeletedTodoItem);
                         }
                     }).show();
         }
@@ -341,9 +341,9 @@ public class MainActivity extends AppCompatActivity {
             }
             holder.linearLayout.setBackgroundColor(bgColor);
 
-            holder.mToDoTextview.setMaxLines(2);
-            holder.mToDoTextview.setText(item.toString());
-            holder.mToDoTextview.setTextColor(todoTextColor);
+            holder.mTodoTextview.setMaxLines(2);
+            holder.mTodoTextview.setText(item.toString());
+            holder.mTodoTextview.setTextColor(todoTextColor);
             TextDrawable myDrawable = TextDrawable.builder().beginConfig()
                     .textColor(Color.WHITE)
                     .useFont(Typeface.DEFAULT)
@@ -369,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
 
             View mView;
             LinearLayout linearLayout;
-            TextView mToDoTextview;
+            TextView mTodoTextview;
             ImageView mColorImageView;
 
             public ViewHolder(View v){
@@ -384,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivityForResult(i, REQUEST_ID_TODO_ITEM);
                     }
                 });
-                mToDoTextview = (TextView)v.findViewById(R.id.toDoListItemTextview);
+                mTodoTextview = (TextView)v.findViewById(R.id.toDoListItemTextview);
                 mColorImageView = (ImageView)v.findViewById(R.id.toDoListItemColorImageView);
                 linearLayout = (LinearLayout)v.findViewById(R.id.listItemLinearLayout);
             }

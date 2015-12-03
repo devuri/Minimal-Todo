@@ -18,33 +18,33 @@ import android.widget.LinearLayout;
 
 
 public class AddTodoActivity extends AppCompatActivity {
-    private EditText mToDoTextBodyEditText;
+    private EditText mTodoTextBodyEditText;
 
     private TodoItem mUserTodoItem;
-    private FloatingActionButton mToDoSendFloatingActionButton;
+    private FloatingActionButton mTodoSendFloatingActionButton;
 
     private String mUserEnteredText;
     private Toolbar mToolbar;
     private int mUserColor;
     private LinearLayout mContainerLayout;
-    private String theme;
+    private String mTheme;
 
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Need references to these to change them during light/dark mode
-        theme = getSharedPreferences(MainActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(MainActivity.THEME_SAVED, MainActivity.LIGHTTHEME);
-        if(theme.equals(MainActivity.LIGHTTHEME)){
+        // Need references to these to change them during light/dark mode
+        mTheme = getSharedPreferences(MainActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(MainActivity.THEME_SAVED, MainActivity.LIGHTTHEME);
+        if(mTheme.equals(MainActivity.LIGHTTHEME)) {
             setTheme(R.style.CustomStyle_LightTheme);
         }
-        else{
+        else {
             setTheme(R.style.CustomStyle_DarkTheme);
         }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
 
-        //Show an X in place of <-
+        // Show an X in place of <-
         final Drawable cross = getResources().getDrawable(R.drawable.ic_clear_white_24dp);
         if(cross !=null){
             cross.setColorFilter(getResources().getColor(R.color.icons), PorterDuff.Mode.SRC_ATOP);
@@ -61,22 +61,18 @@ public class AddTodoActivity extends AppCompatActivity {
 
         }
 
-
         mUserTodoItem = (TodoItem)getIntent().getSerializableExtra(MainActivity.TODOITEM);
-
         mUserEnteredText = mUserTodoItem.getTodoText();
         mUserColor = mUserTodoItem.getTodoColor();
-        mToDoTextBodyEditText = (EditText)findViewById(R.id.userToDoEditText);
-        mToDoSendFloatingActionButton = (FloatingActionButton)findViewById(R.id.makeToDoFloatingActionButton);
-
-        mToDoTextBodyEditText.requestFocus();
-        mToDoTextBodyEditText.setText(mUserEnteredText);
+        mTodoTextBodyEditText = (EditText)findViewById(R.id.userTodoEditText);
+        mTodoSendFloatingActionButton = (FloatingActionButton)findViewById(R.id.makeTodoFloatingActionButton);
+        mTodoTextBodyEditText.requestFocus();
+        mTodoTextBodyEditText.setText(mUserEnteredText);
         InputMethodManager imm = (InputMethodManager)this.getSystemService(INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        mToDoTextBodyEditText.setSelection(mToDoTextBodyEditText.length());
+        mTodoTextBodyEditText.setSelection(mTodoTextBodyEditText.length());
 
-
-        mToDoTextBodyEditText.addTextChangedListener(new TextWatcher() {
+        mTodoTextBodyEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -94,28 +90,26 @@ public class AddTodoActivity extends AppCompatActivity {
             }
         });
 
-
-        mToDoSendFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+        mTodoSendFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 makeResult(RESULT_OK);
-                hideKeyboard(mToDoTextBodyEditText);
+                hideKeyboard(mTodoTextBodyEditText);
                 finish();
             }
         });
     }
 
-    private String getThemeSet(){
+    private String getThemeSet() {
         return getSharedPreferences(MainActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(MainActivity.THEME_SAVED, MainActivity.LIGHTTHEME);
     }
 
-    public void hideKeyboard(EditText et){
-
+    public void hideKeyboard(EditText et) {
         InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
     }
 
-    public void makeResult(int result){
+    public void makeResult(int result) {
         Intent i = new Intent();
         mUserTodoItem.setTodoText(mUserEnteredText);
         mUserTodoItem.setTodoColor(mUserColor);
@@ -137,7 +131,7 @@ public class AddTodoActivity extends AppCompatActivity {
                     makeResult(RESULT_CANCELED);
                     NavUtils.navigateUpFromSameTask(this);
                 }
-                hideKeyboard(mToDoTextBodyEditText);
+                hideKeyboard(mTodoTextBodyEditText);
                 return true;
 
             default:
