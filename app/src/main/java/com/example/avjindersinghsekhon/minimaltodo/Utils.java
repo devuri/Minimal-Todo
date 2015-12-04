@@ -15,7 +15,7 @@ public class Utils {
         return toolbarHeight;
     }
 
-    /** Shorten to given string to have a maximal length.
+    /** Ensure the given string is not longer than the given maximal length.
      * If the string has a greater length, shorten it and replace the last 3 characters
      * with "...". This is why maxLength must be greater than 3. */
     public static String LimitString(String s, int maxLength) {
