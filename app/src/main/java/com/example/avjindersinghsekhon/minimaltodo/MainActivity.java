@@ -57,11 +57,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String THEME_SAVED = "com.avjindersekhon.savedtheme";
     public static final String DARKTHEME = "com.avjindersekon.darktheme";
     public static final String LIGHTTHEME = "com.avjindersekon.lighttheme";
-    private String[] testStrings = {"Clean my room",
-            "Water the plants",
-            "Get car washed",
-            "Get my dry cleaning"
-    };
 
     public static ArrayList<TodoItem> getLocallyStoredData(StoreRetrieveData storeRetrieveData){
         ArrayList<TodoItem> items = null;
@@ -207,10 +202,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.aboutMeMenuItem:
+            case R.id.menu_about:
                 startActivity(new Intent(this, AboutActivity.class));
                 return true;
-            case R.id.preferences:
+            case R.id.menu_preferences:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case R.id.menu_sendto:
@@ -267,16 +262,6 @@ public class MainActivity extends AppCompatActivity {
     private void addToDataStore(TodoItem item){
         mTodoItemsArrayList.add(item);
         adapter.notifyItemInserted(mTodoItemsArrayList.size() - 1);
-
-    }
-
-
-    public void makeUpItems(ArrayList<TodoItem> items, int len){
-        for (String testString : testStrings) {
-            TodoItem item = new TodoItem(testString);
-            items.add(item);
-        }
-
     }
 
     public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter{
@@ -405,7 +390,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         mRecyclerView.removeOnScrollListener(customRecyclerScrollViewListener);
     }

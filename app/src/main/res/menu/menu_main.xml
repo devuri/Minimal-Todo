@@ -3,18 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".AddTodoActivity">
 
-    <item android:id="@+id/preferences"
+    <item android:id="@+id/menu_sendto"
+        android:title="@string/send_to"
+        app:showAsAction="never"
+        />
+
+    <item android:id="@+id/menu_preferences"
         android:title="@string/action_settings"
         app:showAsAction="never"
         />
 
-    <item android:id="@+id/aboutMeMenuItem"
+    <item android:id="@+id/menu_about"
         android:title="@string/about"
-        app:showAsAction="never"
-        />
-
-    <item android:id="@+id/menu_sendto"
-        android:title="@string/send_to"
         app:showAsAction="never"
         />
 
