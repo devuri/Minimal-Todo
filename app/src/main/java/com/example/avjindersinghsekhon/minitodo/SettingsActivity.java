@@ -1,4 +1,4 @@
-package com.example.avjindersinghsekhon.minimaltodo;
+package com.example.avjindersinghsekhon.minitodo;
 
 import android.app.FragmentManager;
 import android.graphics.Color;

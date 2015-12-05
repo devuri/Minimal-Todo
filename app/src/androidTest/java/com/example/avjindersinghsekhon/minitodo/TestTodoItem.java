@@ -21,7 +21,7 @@
  *
  */
 
-package com.example.avjindersinghsekhon.minimaltodo;
+package com.example.avjindersinghsekhon.minitodo;
 
 import junit.framework.TestCase;
 

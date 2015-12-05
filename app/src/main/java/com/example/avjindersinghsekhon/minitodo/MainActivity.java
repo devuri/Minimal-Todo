@@ -1,4 +1,4 @@
-package com.example.avjindersinghsekhon.minimaltodo;
+package com.example.avjindersinghsekhon.minitodo;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mAddTodoItemFAB;
     private ArrayList<TodoItem> mTodoItemsArrayList;
     private CoordinatorLayout mCoordLayout;
-    public static final String TODOITEM = "com.avjindersinghsekhon.com.avjindersinghsekhon.minimaltodo.MainActivity";
+    public static final String TODOITEM = "com.avjindersinghsekhon.com.avjindersinghsekhon.minitodo.MainActivity";
     private BasicListAdapter adapter;
     private static final int REQUEST_ID_TODO_ITEM = 100;
     private TodoItem mJustDeletedTodoItem;
