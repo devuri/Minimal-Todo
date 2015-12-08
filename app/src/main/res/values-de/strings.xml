@@ -11,4 +11,7 @@
     <string name="night_mode_on_summary">Nachtmodus ist an</string>
     <string name="night_mode_off_summary">Nachtmodus ist aus</string>
     <string name="remove">Herausnehmen</string>
+    <string name="send_to">Teilen</string>
+    <string name="send_to_subject">Geteilte Liste der Mini Todo App</string>
+    <string name="deleted">Löschen von \'%s\'</string>
 </resources>
