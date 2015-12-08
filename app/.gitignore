@@ -1,14 +1,3 @@
-/build
-
-#.gradle
-#/local.properties
-#/.idea/workspace.xml
-#/.idea/libraries
-#.DS_Store
-#/build
-#/captures
-#/.idea
-
 # Created by https://www.gitignore.io
 
 ### Android ###
@@ -26,6 +15,9 @@ gen/
 # Gradle files
 .gradle/
 build/
+
+# generated .apk
+app-release.apk
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -97,7 +89,4 @@ gradle-app.setting
 hs_err_pid*
 
 *.DS_Store
-Status API Training Shop Blog About Pricing
-©
 
-src/main/res/xml/app_tracker.xml
