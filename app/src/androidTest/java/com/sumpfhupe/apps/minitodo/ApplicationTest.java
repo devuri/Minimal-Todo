@@ -1,4 +1,4 @@
-package com.example.avjindersinghsekhon.minitodo;
+package com.sumpfhupe.apps.minitodo;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

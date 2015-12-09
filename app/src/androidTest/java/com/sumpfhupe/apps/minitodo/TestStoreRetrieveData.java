@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.example.avjindersinghsekhon.minitodo;
+package com.sumpfhupe.apps.minitodo;
 
 import android.content.Context;
 import android.test.ActivityUnitTestCase;

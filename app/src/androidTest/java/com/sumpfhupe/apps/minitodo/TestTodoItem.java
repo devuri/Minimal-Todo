@@ -21,7 +21,7 @@
  *
  */
 
-package com.example.avjindersinghsekhon.minitodo;
+package com.sumpfhupe.apps.minitodo;
 
 import junit.framework.TestCase;
 

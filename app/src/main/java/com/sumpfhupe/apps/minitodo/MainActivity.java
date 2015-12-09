@@ -1,4 +1,4 @@
-package com.example.avjindersinghsekhon.minitodo;
+package com.sumpfhupe.apps.minitodo;
 
 import android.app.PendingIntent;
 import android.content.Intent;
