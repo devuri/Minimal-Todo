@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mAddTodoItemFAB;
     private ArrayList<TodoItem> mTodoItemsArrayList;
     private CoordinatorLayout mCoordLayout;
-    public static final String TODOITEM = "com.avjindersinghsekhon.com.avjindersinghsekhon.minitodo.MainActivity";
+    public static final String TODOITEM = "com.sumpfhupe.apps.minitodo.MainActivity";
     private BasicListAdapter adapter;
     private static final int REQUEST_ID_TODO_ITEM = 100;
     private TodoItem mJustDeletedTodoItem;
@@ -50,13 +50,13 @@ public class MainActivity extends AppCompatActivity {
     private StoreRetrieveData storeRetrieveData;
     public ItemTouchHelper itemTouchHelper;
     private CustomRecyclerScrollViewListener customRecyclerScrollViewListener;
-    public static final String SHARED_PREF_DATA_SET_CHANGED = "com.avjindersekhon.datasetchanged";
-    public static final String CHANGE_OCCURED = "com.avjinder.changeoccured";
-    public static final String THEME_PREFERENCES = "com.avjindersekhon.themepref";
-    public static final String RECREATE_ACTIVITY = "com.avjindersekhon.recreateactivity";
-    public static final String THEME_SAVED = "com.avjindersekhon.savedtheme";
-    public static final String DARKTHEME = "com.avjindersekon.darktheme";
-    public static final String LIGHTTHEME = "com.avjindersekon.lighttheme";
+    public static final String SHARED_PREF_DATA_SET_CHANGED = "com.sumpfhupe.datasetchanged";
+    public static final String CHANGE_OCCURED = "com.sumpfhupe.changeoccured";
+    public static final String THEME_PREFERENCES = "com.sumpfhupe.themepref";
+    public static final String RECREATE_ACTIVITY = "com.sumpfhupe.recreateactivity";
+    public static final String THEME_SAVED = "com.sumpfhupe.savedtheme";
+    public static final String DARKTHEME = "com.sumpfhupe.darktheme";
+    public static final String LIGHTTHEME = "com.sumpfhupe.lighttheme";
 
     public static ArrayList<TodoItem> getLocallyStoredData(StoreRetrieveData storeRetrieveData){
         ArrayList<TodoItem> items = null;

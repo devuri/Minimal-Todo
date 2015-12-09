@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.example.avjindersinghsekhon.minitodo.CustomTextInputLayout
+                <com.sumpfhupe.apps.minitodo.CustomTextInputLayout
                     app:hintTextAppearance="@style/FloatingLabelTextAppearance"
                     android:id="@+id/toDoCustomTextInput"
                     android:gravity="center"
@@ -42,7 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
 
-                </com.example.avjindersinghsekhon.minitodo.CustomTextInputLayout>
+                </com.sumpfhupe.apps.minitodo.CustomTextInputLayout>
 
             </LinearLayout>
 
