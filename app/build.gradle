@@ -2,12 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        //release {
-        //    storeFile file(KEYSTORE_FILE)
-        //    storePassword KEYSTORE_PASSWORD
-        //    keyAlias KEY_ALIAS
-        //    keyPassword KEY_PASSWORD
-        //}
+        release
     }
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -21,7 +16,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            //signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -39,4 +34,25 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:support-v13:23.1.1'
+}
+
+
+// To sign releases store the key info in ~/.gradle/gradle.properties
+// like this:
+// KEYSTORE_FILE=/path/to/my/keystore.jks
+// KEYSTORE_PASSWORD=password1
+// KEY_ALIAS=MyKeyAlias
+// KEY_PASSWORD=password2
+
+if (project.hasProperty('KEYSTORE_FILE')) {
+    android.signingConfigs.release.storeFile = file(KEYSTORE_FILE)
+}
+if (project.hasProperty('KEYSTORE_PASSWORD')) {
+    android.signingConfigs.release.storePassword = KEYSTORE_PASSWORD
+}
+if (project.hasProperty('KEY_ALIAS')) {
+    android.signingConfigs.release.keyAlias = KEY_ALIAS
+}
+if (project.hasProperty('KEY_PASSWORD')) {
+    android.signingConfigs.release.keyPassword = KEY_PASSWORD
 }
