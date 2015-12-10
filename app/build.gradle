@@ -16,7 +16,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -55,4 +55,11 @@ if (project.hasProperty('KEY_ALIAS')) {
 }
 if (project.hasProperty('KEY_PASSWORD')) {
     android.signingConfigs.release.keyPassword = KEY_PASSWORD
+}
+// check if all required properties are set before using them
+if (project.hasProperty('KEYSTORE_FILE') &&
+    project.hasProperty('KEYSTORE_PASSWORD') &&
+    project.hasProperty('KEY_ALIAS') &&
+    project.hasProperty('KEY_PASSWORD')) {
+    android.buildTypes.release.signingConfig = android.signingConfigs.release
 }
